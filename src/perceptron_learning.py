@@ -1,4 +1,5 @@
 import numpy as np
+import generateTestData as generateTestData
 
 
 # vec1, vec2 np -> num
@@ -48,4 +49,37 @@ def test():
         print("ans " + str(ans) + "---" + str(tlist[i])+"\n")
 
 
-test()
+def testPrime():
+
+    data = generateTestData.generateTestData(10)
+
+    xlist = np.matrix(data[1])
+    tlist = np.matrix(data[2]).T
+    w = np.matrix(np.zeros(xlist.shape[1]))
+    e = 0.5
+
+    print("data:"+str(data))
+    print("xlist:"+str(xlist))
+    print("tlist:"+str(tlist))
+    print("w:"+str(w))
+    print("e:"+str(e))
+
+
+    epoch = 10
+    for i in range(0, epoch):
+        w = learning(w, xlist, tlist, e)
+    
+    all = tlist.shape[0]
+    p = 0
+    for i in range(0, tlist.shape[0]):
+        ans = forward(w, xlist[i])        
+        print(str(data[0][i]) + " ans " + str(ans) + "---" + str(tlist[i]))
+        if ans == tlist[i]:
+            p = p + 1
+
+    print("all:" + str(all) + " true:" + str(p) + " percent:" + str(float(p/all*100))+"%")
+
+
+
+
+testPrime()
